@@ -1,0 +1,33 @@
+{
+  "name": "cybersense",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@firebase/firestore": "^4.4.3",
+    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-navigation/bottom-tabs": "^6.5.14",
+    "@react-navigation/drawer": "^6.6.9",
+    "@react-navigation/native": "^6.1.12",
+    "@react-navigation/native-stack": "^6.9.20",
+    "date-fns": "^3.6.0",
+    "expo": "~50.0.7",
+    "expo-status-bar": "~1.11.1",
+    "firebase": "^10.8.1",
+    "react": "18.2.0",
+    "react-native": "0.73.4",
+    "react-native-date-picker": "^5.0.1",
+    "react-native-picker-select": "^9.1.3",
+    "react-native-svg": "^15.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "^18.2.79"
+  },
+  "private": true
+}
