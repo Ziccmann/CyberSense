@@ -7,6 +7,7 @@ import { db } from '../backend/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const Login = ({ route, navigation }) => {
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');

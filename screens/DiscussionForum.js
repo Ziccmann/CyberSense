@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, Alert, Modal, TextInput } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, Alert, Modal, TextInput, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { doc, getDocs, deleteDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '../backend/firebase';
@@ -165,6 +165,9 @@ useEffect(() => {
 
   return (
     <View style={themeStyles.container}>
+      <View style={{ alignItems: 'center' }}>
+                <Image source={require('../assets/file-security.png')} style={themeStyles.image} resizeMode='contain' />
+            </View>
       <FlatList
         data={posts}
         renderItem={renderPost}
@@ -221,6 +224,10 @@ const getThemeStyles = (theme) => {
         paddingBottom: 15,
         elevation: 5,
       },
+      image: {
+        width: 70,
+        height: 50,
+    },
       postHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between', // Aligns the title and date on opposite ends

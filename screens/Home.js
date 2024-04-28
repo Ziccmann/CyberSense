@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
         height: 100,
     },
     image: {
-        width: 70,
-        height: 50,
+        width: 30,
+        height: 30,
     },
     viewAsUserContainer: {
         flexDirection: 'row',

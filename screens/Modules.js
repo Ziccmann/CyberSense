@@ -112,8 +112,8 @@ const getStyles = (theme) => {
             marginTop: 4,
         },
         image: {
-            width: 100,
-            height: 80,
+            width: 70,
+            height: 50,
         },
         addButton: {
             backgroundColor: isDark ? '#4CAF50' : '#8BC34A', // Dark or light add button

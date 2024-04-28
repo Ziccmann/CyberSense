@@ -64,9 +64,9 @@ export const getThemeStyles = (theme) => {
       color: isDark ? '#E0E1DD' : '#333', // Dark or light text
     },
     image: {
-      width: 100,
-      height: 80,
-    },
+      width: 70,
+      height: 50,
+  },
     
     listContent: {
       // Apply dynamic styles for your FlatList content container if needed
