@@ -65,7 +65,3 @@ Once the application is running on your emulator or physical device:
 ## Contributing
 
 Contributions to CyberSense are always welcome, whether it's fixing bugs, adding new features, or improving documentation. Please feel free to fork the repository and submit pull requests.
-
-## License
-
-CyberSense is released under the MIT License. See the bundled [LICENSE](LICENSE) file for details.
