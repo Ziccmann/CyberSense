@@ -30,7 +30,6 @@ const CreatePost = ({ navigation }) => {
         PostTitle: postTitle,
         PostContent: postContent,
         PostDate: new Date(),
-        // Any other fields you need to add...
       });
       Alert.alert('Success', 'Post created successfully!');
       navigation.goBack();

@@ -5,33 +5,36 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 const EditQuestions = ({ route }) => {
-  const { moduleData, quizData } = route.params;
-  const [questions, setQuestions] = useState([]);
-  const navigation = useNavigation();
-  const isFocused = useIsFocused();
+  const { moduleData, quizData } = route.params; // Extract moduleData and quizData from route parameters
+  const [questions, setQuestions] = useState([]); // State to hold questions
+  const navigation = useNavigation(); // Navigation instance
+  const isFocused = useIsFocused(); // Check if screen is focused
 
   useEffect(() => {
+    // Function to fetch questions from Firestore
     const fetchQuestions = async () => {
       const questionsQuery = query(
         collection(db, 'Modules', moduleData.id, 'Quizzes', quizData.id, 'Questions')
-      );
-      const querySnapshot = await getDocs(questionsQuery);
+      ); // Query to fetch questions from Firestore
+      const querySnapshot = await getDocs(questionsQuery); // Fetch documents from Firestore
       const fetchedQuestions = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-      }));
-      setQuestions(fetchedQuestions);
+      })); // Map documents to array of question objects
+      setQuestions(fetchedQuestions); // Update questions state with fetched questions
     };
 
+    // Fetch questions when the screen is focused
     if (isFocused) {
       fetchQuestions();
     }
-  }, [isFocused, moduleData.id, quizData.id]);
+  }, [isFocused, moduleData.id, quizData.id]); // Dependency array includes isFocused, moduleData.id, and quizData.id
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Edit Questions for {quizData.QuizName}</Text>
 
+      {/* Render each question as a TouchableOpacity */}
       {questions.map((question, index) => (
         <TouchableOpacity
           key={question.id}

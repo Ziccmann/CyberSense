@@ -5,6 +5,7 @@ import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 import RNPickerSelect from 'react-native-picker-select';
 import { ThemeContext } from '../extras/ThemeContext'; // Import the ThemeContext
 
+// Main component for adding a question
 const AddQuestion = () => {
     const [moduleName, setModuleName] = useState('');
     const [quizName, setQuizName] = useState('');
@@ -16,6 +17,7 @@ const AddQuestion = () => {
     const { theme } = useContext(ThemeContext); // Consume the theme from the ThemeContext
 
     useEffect(() => {
+        // Fetch modules when component mounts
         const fetchModules = async () => {
             const modulesArray = [];
             const snapshot = await getDocs(collection(db, "Modules"));
@@ -28,6 +30,7 @@ const AddQuestion = () => {
     }, []);
 
     useEffect(() => {
+        // Fetch quizzes when moduleName changes
         const fetchQuizzes = async () => {
             if (!moduleName) return;
             const quizzesArray = [];
@@ -41,6 +44,7 @@ const AddQuestion = () => {
     }, [moduleName]);
 
     const handleAddQuestion = async () => {
+        // Validate inputs and add question to database
         if (!quizName || !moduleName || !questionText || options.some(option => option.trim() === '') || !correctOption) {
             Alert.alert('Error', 'Please ensure all fields are filled and all options are provided.');
             return;
@@ -55,6 +59,7 @@ const AddQuestion = () => {
                 CorrectOption: correctOption
             });
             Alert.alert('Success', 'Question added successfully!');
+            // Reset form fields after successful addition
             setQuestionText('');
             setOptions(['', '', '', '']);
             setCorrectOption('');
@@ -108,12 +113,12 @@ const AddQuestion = () => {
         },
         placeholderTextColor: {
             color: theme === 'dark' ? '#E0E1DD' : '#C7C7CD',
-         }
+        }
     });
 
     return (
         <View style={styles.container}>
-             <View style={styles.imageView}>
+            <View style={styles.imageView}>
                 <Image
                     source={require('../assets/file-security.png')}
                     style={styles.image}
@@ -121,19 +126,23 @@ const AddQuestion = () => {
                 />
             </View>
             <Text style={styles.title}>Add a Question</Text>
+            {/* Dropdown to select module */}
             <RNPickerSelect
                 onValueChange={(value) => setModuleName(value)}
                 items={modules}
                 style={pickerSelectStyles}
                 placeholder={{ label: "Select a module...", value: null }}
             />
+            {/* Dropdown to select quiz */}
             <RNPickerSelect
                 onValueChange={(value) => setQuizName(value)}
                 items={quizzes}
                 style={pickerSelectStyles}
                 placeholder={{ label: "Select a quiz...", value: null }}
             />
-            <TextInput style={styles.input} placeholder="Question Text"  placeholderTextColor={styles.placeholderTextColor} value={questionText} onChangeText={setQuestionText} />
+            {/* Input field for question text */}
+            <TextInput style={styles.input} placeholder="Question Text" placeholderTextColor={styles.placeholderTextColor} value={questionText} onChangeText={setQuestionText} />
+            {/* Input fields for options */}
             {options.map((option, index) => (
                 <TextInput
                     key={index}
@@ -148,7 +157,9 @@ const AddQuestion = () => {
                     }}
                 />
             ))}
-            <TextInput style={styles.input} placeholder="Correct Option"  placeholderTextColor={styles.placeholderTextColor} value={correctOption} onChangeText={setCorrectOption} />
+            {/* Input field for correct option */}
+            <TextInput style={styles.input} placeholder="Correct Option" placeholderTextColor={styles.placeholderTextColor} value={correctOption} onChangeText={setCorrectOption} />
+            {/* Button to add question */}
             <TouchableOpacity style={styles.button} onPress={handleAddQuestion}>
                 <Text style={styles.buttonText}>Add Question</Text>
             </TouchableOpacity>
@@ -166,12 +177,9 @@ const pickerSelectStyles = StyleSheet.create({
         borderRadius: 4,
         color: 'white',
         paddingRight: 30,
-   
     },
     inputAndroid: {
-    
         color: 'gray',
-      
     },
 });
 

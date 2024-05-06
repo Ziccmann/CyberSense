@@ -1,26 +1,33 @@
-import React, {useContext, useState} from 'react';
-import {StyleSheet, Text, Image, TextInput, TouchableOpacity, View} from 'react-native';
-import {db} from '../backend/firebase';
-import {doc, setDoc} from 'firebase/firestore';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, Text, Image, TextInput, TouchableOpacity, View } from 'react-native';
+import { db } from '../backend/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import RNPickerSelect from 'react-native-picker-select';
-import {useNavigation} from '@react-navigation/native';
-import {ThemeContext} from '../extras/ThemeContext'; // Make sure to import useNavigation
+import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from '../extras/ThemeContext';
 
-
+// Main component for adding a module
 const AddModule = () => {
+    // State hooks for form inputs
     const [moduleName, setModuleName] = useState('');
     const [moduleDescription, setModuleDescription] = useState('');
     const [moduleDuration, setModuleDuration] = useState('');
     const [moduleDifficulty, setModuleDifficulty] = useState('');
     const [moduleContent, setModuleContent] = useState('');
+
+    // Hooks to use navigation and theming context
     const navigation = useNavigation();
-    const {theme} = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
     const styles = getDynamicStyles(theme);
 
+    // Function to handle the module addition
     const onPressAddModule = async () => {
+        // Check if all fields are filled
         if (moduleName && moduleDescription && moduleDuration && moduleDifficulty) {
+            // Creating a reference to a new document in the 'Modules' collection with the moduleName as the document ID
             const moduleRef = doc(db, 'Modules', moduleName);
             try {
+                // Attempt to set the document with form data
                 await setDoc(moduleRef, {
                     ModuleName: moduleName,
                     ModuleDescription: moduleDescription,
@@ -28,16 +35,21 @@ const AddModule = () => {
                     ModuleDifficulty: moduleDifficulty,
                     ModuleContent: moduleContent
                 });
+                // Success feedback and navigating back to the modules screen
                 alert('Module added successfully!');
-                navigation.navigate('ModulesScreen', {moduleAdded: true});
+                navigation.navigate('ModulesScreen', { moduleAdded: true });
             } catch (error) {
+                // Error handling
                 console.error("Error adding module: ", error);
                 alert('Error adding module');
             }
         } else {
+            // Alert if not all fields are filled
             alert('Please fill in all fields.');
         }
     };
+
+    // Component rendering
     return (
         <View style={styles.container}>
             <View style={styles.imageView}>
@@ -48,7 +60,7 @@ const AddModule = () => {
                 />
             </View>
             <Text style={styles.title}>Add Module</Text>
-            {/* Rest of the UI elements using styles dynamically */}
+            {/* Inputs to capture module data */}
             <TextInput style={styles.input} placeholder="Module Name" placeholderTextColor={styles.placeholderTextColor}
                        onChangeText={setModuleName}
                        value={moduleName}/>
@@ -59,6 +71,7 @@ const AddModule = () => {
             <TextInput style={styles.input} placeholder="Module Duration"  placeholderTextColor={styles.placeholderTextColor}
             onChangeText={setModuleDuration}
             value={moduleDuration}/>
+            {/* Picker select for difficulty level */}
             <RNPickerSelect
                 style={pickerSelectStyles}
                 placeholder={{label: "Select difficulty...", value: null}}
@@ -69,9 +82,11 @@ const AddModule = () => {
                     {label: "Expert", value: "Expert"},
                 ]}
             />
+            {/* Input for content URL */}
             <TextInput style={styles.input} placeholder="Content URL" placeholderTextColor={styles.placeholderTextColor}
             onChangeText={setModuleContent}
             value={moduleContent}/>
+            {/* Button to trigger module addition */}
             <TouchableOpacity style={styles.addButton} onPress={onPressAddModule}>
                 <Text style={styles.addButtonText}>Add Module</Text>
             </TouchableOpacity>
@@ -79,9 +94,11 @@ const AddModule = () => {
     );
 };
 
+// Function to get styles dynamically based on the theme
 const getDynamicStyles = (theme) => {
     const isDark = theme === 'dark';
     return StyleSheet.create({
+        // Styles are omitted for brevity
         container: {
             flex: 1,
             padding: 20,
@@ -125,7 +142,9 @@ const getDynamicStyles = (theme) => {
     });
 };
 
+// Styles for the RNPickerSelect component
 const pickerSelectStyles = StyleSheet.create({
+    // Styles are omitted for brevity
     inputIOS: {
         color: 'white',
         paddingTop: 13,

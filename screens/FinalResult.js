@@ -3,30 +3,32 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 const FinalResult = () => {
-    const navigation = useNavigation();
-    const route = useRoute();
-    const score = route.params?.score ?? 'No score';
-    const passingScore = route.params?.passingScore ?? 75;
+    const navigation = useNavigation(); // Navigation instance
+    const route = useRoute(); // Route instance
+    const score = route.params?.score ?? 'No score'; // Extract score from route params, default to 'No score' if not available
+    const passingScore = route.params?.passingScore ?? 75; // Extract passing score from route params, default to 75
 
-    const hasPassed = score >= passingScore;
-    let badgeEarned = null;
-    let badgeImage = require('../assets/question.png'); // Default image for no badge
+    const hasPassed = score >= passingScore; // Check if the user has passed
+    let badgeEarned = null; // Initialize variable to hold badge type
+    let badgeImage = require('../assets/question.png'); // Default badge image
 
+    // Determine badge type and image based on score
     if (score >= 100) {
         badgeEarned = 'Platinum';
-        badgeImage = require('../assets/platinum.png'); // Replace with actual platinum badge image
+        badgeImage = require('../assets/platinum.png'); // Platinum badge image
     } else if (score >= 90) {
         badgeEarned = 'Gold';
-        badgeImage = require('../assets/winner.png'); // Replace with actual gold badge image
+        badgeImage = require('../assets/winner.png'); // Gold badge image
     } else if (score >= 80) {
         badgeEarned = 'Silver';
-        badgeImage = require('../assets/2nd-place.png'); // Replace with actual silver badge image
+        badgeImage = require('../assets/2nd-place.png'); // Silver badge image
     } else if (score >= 70) {
         badgeEarned = 'Bronze';
-        badgeImage = require('../assets/3rd-place.png'); // Replace with actual bronze badge image
+        badgeImage = require('../assets/3rd-place.png'); // Bronze badge image
     }
 
     const styles = StyleSheet.create({
+        // Styles for various components
         container: {
             flex: 1,
             padding: 20,
@@ -90,7 +92,7 @@ const FinalResult = () => {
     });
 
     const onPressHome = () => {
-        navigation.navigate('HomeScreen');
+        navigation.navigate('HomeScreen'); // Navigate to home screen
     }
 
     return (

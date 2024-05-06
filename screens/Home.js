@@ -6,25 +6,25 @@ import { ThemeContext } from '../extras/ThemeContext';
 import { getThemeStyles } from '../extras/theme-styles'; // Ensure this is the correct path to your theme styles
 
 const Home = () => {
-  const navigation = useNavigation();
-  const { theme } = useContext(ThemeContext); // Access the theme from the ThemeContext
-  const themeStyles = getThemeStyles(theme); // Get styles for the current theme
-  const [userFullName, setUserFullName] = useState('Guest');
-  const [originalUserRole, setOriginalUserRole] = useState('User');
-  const [isViewingAsUser, setIsViewingAsUser] = useState(false);
+    const navigation = useNavigation();
+    const { theme } = useContext(ThemeContext); // Access the theme from the ThemeContext
+    const themeStyles = getThemeStyles(theme); // Get styles for the current theme
+    const [userFullName, setUserFullName] = useState('Guest');
+    const [originalUserRole, setOriginalUserRole] = useState('User');
+    const [isViewingAsUser, setIsViewingAsUser] = useState(false);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userDataJson = await AsyncStorage.getItem('userObject');
-      if (userDataJson) {
-        const userData = JSON.parse(userDataJson);
-        setOriginalUserRole(userData.UserRole);
-        setUserFullName(userData.UserFullName || 'Guest');
-      }
-    };
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const userDataJson = await AsyncStorage.getItem('userObject');
+            if (userDataJson) {
+                const userData = JSON.parse(userDataJson);
+                setOriginalUserRole(userData.UserRole);
+                setUserFullName(userData.UserFullName || 'Guest');
+            }
+        };
 
-    fetchUserData();
-  }, []);
+        fetchUserData();
+    }, []);
 
     const getMenuData = () => {
         let menuItems = [
@@ -58,42 +58,29 @@ const Home = () => {
     );
 
     return (
-    <View style={themeStyles.container}>
-      <View style={{ alignItems: 'center' }}>
-        <Image source={require('../assets/file-security.png')} style={themeStyles.image} resizeMode='contain' />
-      </View>
-      <Text style={themeStyles.title}>Welcome, {userFullName}!</Text>
-      {(originalUserRole === 'SuperAdmin' || originalUserRole === 'Admin') && (
-        <View style={themeStyles.viewAsUserContainer}>
-          <Text style={themeStyles.viewAsUserText}>User View Mode:</Text>
-          <Switch onValueChange={toggleViewAsUser} value={isViewingAsUser} />
+        <View style={themeStyles.container}>
+            <View style={{ alignItems: 'center' }}>
+                <Image source={require('../assets/file-security.png')} style={themeStyles.image} resizeMode='contain' />
+            </View>
+            <Text style={themeStyles.title}>Welcome, {userFullName}!</Text>
+            {(originalUserRole === 'SuperAdmin' || originalUserRole === 'Admin') && (
+                <View style={themeStyles.viewAsUserContainer}>
+                    <Text style={themeStyles.viewAsUserText}>User View Mode:</Text>
+                    <Switch onValueChange={toggleViewAsUser} value={isViewingAsUser} />
+                </View>
+            )}
+            <FlatList
+                data={getMenuData()}
+                renderItem={renderItem}
+                keyExtractor={item => item.key}
+                numColumns={2}
+                contentContainerStyle={themeStyles.listContent} // Apply dynamic styles if needed
+            />
         </View>
-      )}
-      <FlatList
-        data={getMenuData()}
-        renderItem={renderItem}
-        keyExtractor={item => item.key}
-        numColumns={2}
-        contentContainerStyle={themeStyles.listContent} // Apply dynamic styles if needed
-      />
-    </View>
-  );
+    );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        justifyContent: 'center',
-        backgroundColor: '#0D1B2A',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#E0E1DD',
-        marginBottom: 20,
-        textAlign: 'center',
-    },
     item: {
         flex: 1,
         margin: 10,
@@ -113,22 +100,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
     },
-    image: {
-        width: 30,
-        height: 30,
-    },
-    viewAsUserContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    viewAsUserText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        marginRight: 10,
-    }
 });
 
 export default Home;
- 

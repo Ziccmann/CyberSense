@@ -7,28 +7,29 @@ import { format } from 'date-fns';
 import { ThemeContext } from '../extras/ThemeContext';
 
 const Comments = ({ route }) => {
-  const { postId } = route.params;
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
-  const auth = getAuth();
-  const { theme } = useContext(ThemeContext);
-  const styles = getDynamicStyles(theme);
+  const { postId } = route.params; // Extract postId from route parameters
+  const [comments, setComments] = useState([]); // State to hold comments
+  const [newComment, setNewComment] = useState(''); // State for new comment text
+  const auth = getAuth(); // Firebase authentication instance
+  const { theme } = useContext(ThemeContext); // Consume theme from context
+  const styles = getDynamicStyles(theme); // Get dynamic styles based on theme
 
+  // Fetch comments when component mounts or postId changes
   useEffect(() => {
     const fetchComments = async () => {
-      // Assuming postId format is 'userId:postId'
-      const userId = postId.split(':')[0];
-      const postRef = doc(db, 'UserMD', userId, 'DiscussionForum', postId);
-      const commentsRef = collection(postRef, 'Comments');
+      const userId = postId.split(':')[0]; // Extract userId from postId
+      const postRef = doc(db, 'UserMD', userId, 'DiscussionForum', postId); // Reference to post document
+      const commentsRef = collection(postRef, 'Comments'); // Reference to comments collection
 
+      // Listen for changes in comments collection
       const unsubscribe = onSnapshot(commentsRef, (querySnapshot) => {
         const commentsPromises = querySnapshot.docs.map(async (commentDoc) => {
-          const commentData = commentDoc.data();
-          const userDocRef = doc(db, 'UserMD', commentData.UserID);
-          const userDocSnap = await getDoc(userDocRef);
-          const userData = userDocSnap.data();
+          const commentData = commentDoc.data(); // Comment data
+          const userDocRef = doc(db, 'UserMD', commentData.UserID); // Reference to user document
+          const userDocSnap = await getDoc(userDocRef); // Get user document snapshot
+          const userData = userDocSnap.data(); // User data
 
-          // Format the comment date using date-fns
+          // Format comment date using date-fns library
           const formattedCommentDate = commentData.CommentDate ?
             format(commentData.CommentDate.toDate(), 'PPpp') : 'N/A';
 
@@ -41,43 +42,46 @@ const Comments = ({ route }) => {
           };
         });
 
-        Promise.all(commentsPromises).then(setComments);
+        Promise.all(commentsPromises).then(setComments); // Set comments state after resolving all promises
       });
 
-      return unsubscribe;
+      return unsubscribe; // Unsubscribe from snapshot listener when component unmounts
     };
 
-    fetchComments();
-  }, [postId]);
+    fetchComments(); // Fetch comments
+  }, [postId]); // Execute effect when postId changes
 
+  // Add a new comment
   const handleAddComment = async () => {
-    if (!newComment.trim()) return;
+    if (!newComment.trim()) return; // Do nothing if comment is empty
 
     try {
-      const userId = postId.split(':')[0];
-      const postRef = doc(db, 'UserMD', userId, 'DiscussionForum', postId);
-      const commentsRef = collection(postRef, 'Comments');
+      const userId = postId.split(':')[0]; // Extract userId from postId
+      const postRef = doc(db, 'UserMD', userId, 'DiscussionForum', postId); // Reference to post document
+      const commentsRef = collection(postRef, 'Comments'); // Reference to comments collection
 
+      // Add new comment document to comments collection
       await addDoc(commentsRef, {
         CommentText: newComment,
         UserID: auth.currentUser.uid,
         CommentDate: new Date(),
       });
 
-      setNewComment('');
+      setNewComment(''); // Clear new comment text
     } catch (error) {
-      console.error('Error adding comment:', error);
+      console.error('Error adding comment:', error); // Log error if adding comment fails
     }
   };
 
+  // Render comments and input field
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center' }}>
-                <Image source={require('../assets/file-security.png')} style={styles.image} resizeMode='contain' />
-            </View>
+        <Image source={require('../assets/file-security.png')} style={styles.image} resizeMode='contain' />
+      </View>
       <FlatList
-        data={comments}
-        keyExtractor={(item) => item.id}
+        data={comments} // Comments data
+        keyExtractor={(item) => item.id} // Unique key extractor for comments
         renderItem={({ item }) => (
           <View style={styles.commentContainer}>
             <View style={styles.commentHeader}>
@@ -103,6 +107,7 @@ const Comments = ({ route }) => {
   );
 };
 
+// Dynamic styles based on theme
 const getDynamicStyles = (theme) => {
   const isDark = theme === 'dark';
   return StyleSheet.create({

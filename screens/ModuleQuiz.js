@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {arrayUnion, collection, doc, getDocs, serverTimestamp, setDoc} from 'firebase/firestore';
-import {auth, db} from '../backend/firebase';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { arrayUnion, collection, doc, getDocs, serverTimestamp, setDoc } from 'firebase/firestore';
+import { auth, db } from '../backend/firebase';
 
 const ModuleQuiz = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    const {moduleId, quizId} = route.params;
+    const { moduleId, quizId } = route.params;
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -17,6 +17,7 @@ const ModuleQuiz = () => {
         const fetchQuestions = async () => {
             setLoading(true);
             try {
+                // Fetch questions for the quiz from Firestore
                 const questionsSnapshot = await getDocs(collection(db, 'Modules', moduleId, 'Quizzes', quizId, 'Questions'));
                 const fetchedQuestions = questionsSnapshot.docs.map(doc => ({
                     id: doc.id,
@@ -34,7 +35,7 @@ const ModuleQuiz = () => {
     }, [moduleId, quizId]);
 
     const handleAnswerSelection = (questionId, option) => {
-        setSelectedAnswers(prev => ({...prev, [questionId]: option}));
+        setSelectedAnswers(prev => ({ ...prev, [questionId]: option }));
     };
 
     const navigateToNextQuestion = () => {
@@ -53,6 +54,7 @@ const ModuleQuiz = () => {
 
 
     const finishQuiz = async () => {
+        // Calculate score and badges earned
         const correctAnswers = questions.filter(question => selectedAnswers[question.id] === question.CorrectOption);
         const scorePercentage = Math.round((correctAnswers.length / questions.length) * 100);
         const badgeEarned = getBadge(scorePercentage); // You'll define this function based on your badge logic
@@ -71,8 +73,8 @@ const ModuleQuiz = () => {
             };
 
             try {
-                // If you want to create a new document for each module completion
-                await setDoc(userProgressRef, progressUpdate, {merge: true});
+                // Save user progress in Firestore
+                await setDoc(userProgressRef, progressUpdate, { merge: true });
 
                 // Navigate to the results page with the necessary parameters
                 navigation.navigate('FinalResultsScreen', {
@@ -88,7 +90,7 @@ const ModuleQuiz = () => {
         }
     };
 
-    // Call this function to get the badge based on the score
+    // Function to get the badge based on the score
     const getBadge = (score) => {
         if (score >= 100) return 'Platinum';
         if (score >= 90) return 'Gold';
@@ -100,7 +102,7 @@ const ModuleQuiz = () => {
     if (loading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#FFFFFF"/>
+                <ActivityIndicator size="large" color="#FFFFFF" />
             </View>
         );
     }

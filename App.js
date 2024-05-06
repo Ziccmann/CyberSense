@@ -26,6 +26,7 @@ import ProgressTracker from './screens/ProgressTracker';
 import QuizDifficultySelector from './screens/QuizDifficultySelector';
 import DiscussionForum from './screens/DiscussionForum';
 import CreatePost from './screens/CreatePost';
+import UpdatePost from './screens/UpdatePost';
 import Comments from './screens/Comments';
 import ChangePassword from './screens/ChangePassword';
 import {ThemeProvider} from './extras/ThemeContext'; // Adjust the path according to your project structure
@@ -44,7 +45,7 @@ const App = () => {
                         options={{
                             title: 'Login',
                             headerShown: false,
-                            tabBarLabel: 'Home',
+                            tabBarLabel: 'Login',
                             tabBarIcon: () => (
                                 <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
                             )
@@ -56,9 +57,7 @@ const App = () => {
                                       title: 'Registration',
                                       headerShown: false,
                                       tabBarLabel: 'Registration',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -68,9 +67,7 @@ const App = () => {
                                       title: 'Quiz',
                                       headerShown: false,
                                       tabBarLabel: 'Quiz',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                
                                   }}
                     />
 
@@ -80,9 +77,7 @@ const App = () => {
                                       title: 'ModuleQuiz',
                                       headerShown: false,
                                       tabBarLabel: 'ModuleQuiz',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -91,9 +86,7 @@ const App = () => {
                                       title: 'AddQuiz',
                                       headerShown: false,
                                       tabBarLabel: 'AddQuiz',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -102,9 +95,7 @@ const App = () => {
                                       title: 'UpdateQuiz',
                                       headerShown: false,
                                       tabBarLabel: 'UpdateQuiz',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -113,9 +104,7 @@ const App = () => {
                                       title: 'AddModule',
                                       headerShown: false,
                                       tabBarLabel: 'AddModule',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -124,9 +113,7 @@ const App = () => {
                                       title: 'Modules',
                                       headerShown: false,
                                       tabBarLabel: 'Modules',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -135,9 +122,7 @@ const App = () => {
                                       title: 'ModuleContents',
                                       headerShown: false,
                                       tabBarLabel: 'ModuleContents',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -146,9 +131,7 @@ const App = () => {
                                       title: 'UpdateModule',
                                       headerShown: false,
                                       tabBarLabel: 'UpdateModule',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -157,9 +140,7 @@ const App = () => {
                                       title: 'QuestionList',
                                       headerShown: false,
                                       tabBarLabel: 'QuestionList',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -168,9 +149,7 @@ const App = () => {
                                       title: 'AddQuestion',
                                       headerShown: false,
                                       tabBarLabel: 'AddQuestion',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -179,9 +158,7 @@ const App = () => {
                                       title: 'UpdateQuestion',
                                       headerShown: false,
                                       tabBarLabel: 'UpdateQuestion',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -190,9 +167,7 @@ const App = () => {
                                       title: 'QuizDifficultySelector',
                                       headerShown: false,
                                       tabBarLabel: 'QuizDifficultySelector',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -201,9 +176,7 @@ const App = () => {
                                       title: 'Profile',
                                       headerShown: false,
                                       tabBarLabel: 'Profile',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -213,9 +186,7 @@ const App = () => {
                                       title: 'UserUpdateProfile',
                                       headerShown: false,
                                       tabBarLabel: 'UserUpdateProfile',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -224,9 +195,7 @@ const App = () => {
                                       title: 'Users',
                                       headerShown: false,
                                       tabBarLabel: 'Users',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -235,9 +204,7 @@ const App = () => {
                                       title: 'UsersUpdate',
                                       headerShown: false,
                                       tabBarLabel: 'UsersUpdate',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -246,9 +213,7 @@ const App = () => {
                                       title: 'AddUser ',
                                       headerShown: false,
                                       tabBarLabel: 'AddUser ',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -258,9 +223,7 @@ const App = () => {
                                       title: 'FinalResults',
                                       headerShown: false,
                                       tabBarLabel: 'FinalResults',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -269,9 +232,7 @@ const App = () => {
                                       title: 'QuickFinalResult',
                                       headerShown: false,
                                       tabBarLabel: 'QuickFinalResult',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -280,9 +241,7 @@ const App = () => {
                                       title: 'ProgressTracker',
                                       headerShown: false,
                                       tabBarLabel: 'ProgressTracker',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
@@ -291,53 +250,52 @@ const App = () => {
                                       title: 'Settings',
                                       headerShown: false,
                                       tabBarLabel: 'Settings',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
-<Stack.Screen name="DiscussionForumScreen" component={DiscussionForum}
+                    <Stack.Screen name="DiscussionForumScreen" component={DiscussionForum}
                                   options={{
                                       title: 'DiscussionForum',
                                       headerShown: false,
                                       tabBarLabel: 'DiscussionForum',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
-<Stack.Screen name="CommentsScreen" component={Comments}
+                    <Stack.Screen name="CommentsScreen" component={Comments}
                                   options={{
                                       title: 'Comments',
                                       headerShown: false,
                                       tabBarLabel: 'Comments',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
-<Stack.Screen name="CreatePostScreen" component={CreatePost}
+                    <Stack.Screen name="CreatePostScreen" component={CreatePost}
                                   options={{
                                       title: 'CreatePost',
                                       headerShown: false,
                                       tabBarLabel: 'CreatePost',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
 
-<Stack.Screen name="ChangePasswordScreen" component={ChangePassword}
+                    <Stack.Screen name="UpdatePostScreen" component={UpdatePost}
+                                  options={{
+                                      title: 'UpdatePost ',
+                                      headerShown: false,
+                                      tabBarLabel: 'UpdatePost ',
+                                      
+                                  }}
+                    />
+
+                    <Stack.Screen name="ChangePasswordScreen" component={ChangePassword}
                                   options={{
                                       title: 'ChangePassword',
                                       headerShown: false,
                                       tabBarLabel: 'ChangePassword',
-                                      tabBarIcon: () => (
-                                          <MaterialCommunityIcons name='home-account' size={20} color={'red-50'}/>
-                                      )
+                                      
                                   }}
                     />
                     <Stack.Screen name="HomeScreen" component={Home}

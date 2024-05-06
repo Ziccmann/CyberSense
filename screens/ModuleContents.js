@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {collection, deleteDoc, doc, getDoc, getDocs, query} from 'firebase/firestore';
-import {db} from '../backend/firebase';
-import {ThemeContext} from '../extras/ThemeContext'; // Import the ThemeContext
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { collection, deleteDoc, doc, getDoc, getDocs, query } from 'firebase/firestore';
+import { db } from '../backend/firebase';
+import { ThemeContext } from '../extras/ThemeContext'; // Import the ThemeContext
 
-const ModuleContents = ({route}) => {
-    const {moduleData} = route.params;
+const ModuleContents = ({ route }) => {
+    const { moduleData } = route.params;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
-    const {theme} = useContext(ThemeContext); // Consume the theme from the ThemeContext
+    const { theme } = useContext(ThemeContext); // Consume the theme from the ThemeContext
     const [realUserRole, setRealUserRole] = useState('');
     const [viewAsUser, setViewAsUser] = useState(false);
     const [moduleDetails, setModuleDetails] = useState(moduleData);
@@ -18,28 +18,33 @@ const ModuleContents = ({route}) => {
 
     useEffect(() => {
         const fetchDetails = async () => {
+            // Fetch user data from AsyncStorage
             const userDataJson = await AsyncStorage.getItem('userObject');
             const userData = userDataJson ? JSON.parse(userDataJson) : {};
             setRealUserRole(userData.UserRole);
 
+            // Fetch module details from Firestore
             const docRef = doc(db, 'Modules', moduleData.id);
             const docSnap = await getDoc(docRef);
             setModuleDetails(docSnap.exists() ? docSnap.data() : {});
 
+            // Fetch quizzes associated with the module from Firestore
             const quizzesQuery = query(collection(db, 'Modules', moduleData.id, 'Quizzes'));
             const querySnapshot = await getDocs(quizzesQuery);
-            setQuizzes(querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()})));
+            setQuizzes(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         };
 
         if (isFocused) fetchDetails();
     }, [isFocused, moduleData.id]);
 
     const onDeleteModule = async () => {
+        // Prompt the user for confirmation before deleting the module
         Alert.alert("Delete Module", "Are you sure you want to delete this module?", [
-            {text: "Cancel"},
+            { text: "Cancel" },
             {
                 text: "Yes", onPress: async () => {
                     try {
+                        // Delete the module document from Firestore
                         await deleteDoc(doc(db, "Modules", moduleData.id));
                         Alert.alert("Success", "Module deleted successfully!");
                         navigation.goBack();

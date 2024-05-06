@@ -13,6 +13,7 @@ const QuestionList = ({ route }) => {
     const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
+         // Fetch question lists from Firestore
         const fetchQuestions = async () => {
             if (moduleId && quizId) {
                 const questionsRef = collection(db, 'Modules', moduleId, 'Quizzes', quizId, 'Questions');

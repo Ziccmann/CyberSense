@@ -11,6 +11,7 @@ const ProgressTracker = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+     // Fetch progress data from Firestore
     const fetchProgress = async () => {
       setLoading(true);
       const user = auth.currentUser;

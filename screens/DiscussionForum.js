@@ -55,7 +55,6 @@ useEffect(() => {
               UserRole: userRole,
               UserFullName: userFullName,
               LastCompleted: formattedLastCompleted,
-              // ... include any other post data you need
             };
           });
           return posts;
@@ -91,15 +90,15 @@ useEffect(() => {
     }
   };
 
-  const onDeletePost = async (postId) => {
-    if (currentUser && (currentUser.uid === item.UserID)) {
+  const onDeletePost = async (postId, userId) => {
+    if (currentUser && (currentUser.uid === userId)) {
       Alert.alert('Delete Post', 'Are you sure you want to delete this post?', [
         { text: 'Cancel' },
         {
           text: 'Delete',
           onPress: async () => {
             try {
-              await deleteDoc(doc(db, 'UserMD', currentUser.uid, 'DiscussionForum', postId));
+              await deleteDoc(doc(db, 'UserMD', userId, 'DiscussionForum', postId));
               setPosts(previousPosts => previousPosts.filter(post => post.id !== postId));
               Alert.alert('Success', 'Post deleted successfully!');
             } catch (error) {
@@ -113,6 +112,7 @@ useEffect(() => {
       Alert.alert('Error', 'You do not have permission to delete this post.');
     }
   };
+  
   
 
   const renderPost = ({ item }) => {
@@ -128,9 +128,7 @@ useEffect(() => {
       navigation.navigate('CommentsScreen', { postId: item.id });
     };
 
-    const onEditPost = () => {
-      navigation.navigate('EditPostScreen', { post: item });
-    };
+    
     return (
       <View style={themeStyles.postContainer}>
         <Text style={themeStyles.userFullName}>{item.UserFullName}</Text>
@@ -144,21 +142,21 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
         {isPostOwner && (
-        <View style={themeStyles.postActions}>
-          <TouchableOpacity
-            style={themeStyles.editButton}
-            onPress={() => navigation.navigate('EditPostScreen', { post: item })}
-          >
-            <Text style={themeStyles.buttonText}>Edit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={themeStyles.deleteButton}
-            onPress={() => onDeletePost(item.id)}
-          >
-            <Text style={themeStyles.buttonText}>Delete</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <View style={themeStyles.postActions}>
+        <TouchableOpacity
+          style={themeStyles.editButton}
+          onPress={() => navigation.navigate('UpdatePostScreen', { postId: item.id })}
+        >
+          <Text style={themeStyles.buttonText}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={themeStyles.deleteButton}
+          onPress={() => onDeletePost(item.id, item.UserID)} 
+        >
+          <Text style={themeStyles.buttonText}>Delete</Text>
+        </TouchableOpacity>
+      </View>
+    )}
       </View>
     );
   };

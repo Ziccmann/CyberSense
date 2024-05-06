@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
         height: 50,
     },
     input:{
-     
         borderRadius: 4, 
         width: 300, 
         height: 40, 
@@ -35,17 +34,21 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         backgroundColor: 'white',
         color: 'black',
-        
-        
     },title:{
       fontSize: 40,
       height: 140,
       fontWeight: 'bold',
       color: '#E0E1DD', 
       textAlign: 'center'
-    }, button:{
+    }, 
+    text:{
+      fontSize: 20,
+      height: 50,
+      fontWeight: 'bold',
+      color: '#E0E1DD', 
+    },
+    button:{
       alignSelf: 'center',
-      
       width: 300,
       height: 40,
       borderRadius:4,
@@ -53,7 +56,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: 'navy',
       marginBottom: 20
-     
     }, buttonText:{
       color: 'white'
     }, buttonInfo: {

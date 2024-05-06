@@ -15,6 +15,7 @@ const Quiz = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Fetch questions from Firestore
         const fetchQuestions = async () => {
             setLoading(true);
             try {

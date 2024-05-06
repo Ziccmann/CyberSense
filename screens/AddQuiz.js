@@ -29,6 +29,7 @@ const AddQuiz = () => {
     const { theme } = useContext(ThemeContext); // Consume the theme from the ThemeContext
 
     useEffect(() => {
+        // Load modules when component mounts
         const loadModules = async () => {
             const modules = await fetchModules();
             setModuleOptions(modules);
@@ -40,35 +41,33 @@ const AddQuiz = () => {
     }, []);
 
     const handleAddQuiz = async () => {
-      if (!quizName || !quizDescription || !passingScore || !selectedModuleName || !quizDifficulty) {
-        Alert.alert('Error', 'Please fill in all fields to add a quiz.');
-        return;
-    }
+        // Validate inputs and add quiz to database
+        if (!quizName || !quizDescription || !passingScore || !selectedModuleName || !quizDifficulty) {
+            Alert.alert('Error', 'Please fill in all fields to add a quiz.');
+            return;
+        }
 
-  
-      // Create a new document reference for the quiz in the selected module's quiz subcollection
-      const quizRef = doc(db, `Modules/${selectedModuleName}/Quizzes`, quizName); // Optionally, you could use addDoc if you do not wish to specify a custom ID
-  
-      try {
-        await setDoc(quizRef, {
-            QuizName: quizName,
-            QuizDescription: quizDescription,
-            PassingScore: parseInt(passingScore, 10),
-            QuizDifficulty: quizDifficulty, // Add the QuizDifficulty to the document
-        });
-          Alert.alert('Success', 'Quiz added successfully!');
-          // Optional: Clear fields or navigate away after successful addition
-          setQuizName('');
-          setQuizDescription('');
-          setPassingScore('');
-      } catch (error) {
-          console.error("Error adding quiz: ", error);
-          Alert.alert('Error', 'Failed to add quiz: ' + error.message);
-      }
-  };
+        // Create a new document reference for the quiz in the selected module's quiz subcollection
+        const quizRef = doc(db, `Modules/${selectedModuleName}/Quizzes`, quizName);
+
+        try {
+            await setDoc(quizRef, {
+                QuizName: quizName,
+                QuizDescription: quizDescription,
+                PassingScore: parseInt(passingScore, 10),
+                QuizDifficulty: quizDifficulty, // Add the QuizDifficulty to the document
+            });
+            Alert.alert('Success', 'Quiz added successfully!');
+            setQuizName('');
+            setQuizDescription('');
+            setPassingScore('');
+        } catch (error) {
+            console.error("Error adding quiz: ", error);
+            Alert.alert('Error', 'Failed to add quiz: ' + error.message);
+        }
+    };
 
     // Dynamically adjust styles based on the theme
-    
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -110,13 +109,13 @@ const AddQuiz = () => {
             marginBottom: 20,
         },
         placeholderTextColor: {
-           color: theme === 'dark' ? '#E0E1DD' : '#C7C7CD',
+            color: theme === 'dark' ? '#E0E1DD' : '#C7C7CD',
         }
     });
 
     return (
         <View style={styles.container}>
-             <View style={styles.imageView}>
+            <View style={styles.imageView}>
                 <Image
                     source={require('../assets/file-security.png')}
                     style={styles.image}
@@ -124,6 +123,7 @@ const AddQuiz = () => {
                 />
             </View>
             <Text style={styles.title}>Add Quiz to Module</Text>
+            {/* Dropdown to select module */}
             <RNPickerSelect
                 onValueChange={(value) => setSelectedModuleName(value)}
                 items={moduleOptions}
@@ -131,9 +131,11 @@ const AddQuiz = () => {
                 placeholder={{ label: 'Select a module...', value: null }}
                 value={selectedModuleName}
             />
+            {/* Input fields for quiz details */}
             <TextInput style={styles.input} placeholder="Quiz Name" placeholderTextColor={styles.placeholderTextColor} onChangeText={setQuizName} value={quizName} />
             <TextInput style={styles.input} placeholder="Quiz Description" placeholderTextColor={styles.placeholderTextColor} onChangeText={setQuizDescription} value={quizDescription} />
             <TextInput style={styles.input} placeholder="Passing Score" placeholderTextColor={styles.placeholderTextColor} keyboardType="numeric" onChangeText={setPassingScore} value={passingScore} />
+            {/* Dropdown to select quiz difficulty */}
             <RNPickerSelect
                 onValueChange={(value) => setQuizDifficulty(value)}
                 items={[
@@ -145,6 +147,7 @@ const AddQuiz = () => {
                 placeholder={{ label: 'Select quiz difficulty...', value: null }}
                 value={quizDifficulty}
             />
+            {/* Button to add quiz */}
             <TouchableOpacity style={styles.button} onPress={handleAddQuiz}>
                 <Text style={styles.buttonText}>Add Quiz</Text>
             </TouchableOpacity>
@@ -152,6 +155,7 @@ const AddQuiz = () => {
     );
 };
 
+// Styles for the picker select dropdown
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         color: 'white',

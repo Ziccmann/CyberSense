@@ -15,6 +15,7 @@ const Profile = () => {
         try {
             await AsyncStorage.removeItem('userObject');
             navigation.navigate('LoginScreen');
+            alert('Logged Out Sucessfully!');
         } catch (error) {
             console.error('Error clearing the user data:', error);
         }
