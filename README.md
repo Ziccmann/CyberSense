@@ -28,7 +28,10 @@ Before you start, make sure you have the following installed:
 
 3. **Firebase Configuration**
    - Go to the [Firebase Console](https://console.firebase.google.com/).
-   - Create a new project or use an existing one.
+   - Create a new project or use an existing one (Create a new project or use an existing one (Firebase Login Details:
+      Email: isaacsam053@gmail.com
+      Password: Nile1234%
+      ).
    - Add an Android and/or iOS app in your Firebase project settings.
    - Download the `google-services.json` for Android and/or `GoogleService-Info.plist` for iOS and place them in the appropriate directories:
      - Android: `android/app/`
